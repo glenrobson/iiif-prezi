@@ -5,7 +5,7 @@ import json
 import sys
 sys.path.insert(1,'.')
 
-from iiif_prezi.prezi3 import Manifest,Canvas
+from iiif_prezi.prezi3helper import Manifest, Canvas
 
 class TestAll(unittest.TestCase):
 
@@ -42,7 +42,16 @@ class TestAll(unittest.TestCase):
 
         print (json.dumps(json.loads(manifest.json(exclude_unset=True)), indent=4))
         
-        
+    def testOverloadCanvas(self):
+        manifest = Manifest(id='http://iiif.example.org/prezi/Manifest/0')
+
+        canvas = Canvas(label="test")
+        canvas.height = 100
+        canvas.width = 200
+        #print ('Canvas id {}'.format(canvas.id))
+
+        self.assertEqual("test", canvas.label['en'], 'Label should be updated')
+        self.assertEqual("http://example.com/canvas/1", canvas.id, 'Id should be the default one')
         
 if __name__ == '__main__':
     unittest.main()
