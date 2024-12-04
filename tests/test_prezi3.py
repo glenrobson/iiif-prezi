@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 """Test code for iiif_prezi3"""
 from __future__ import unicode_literals
 import unittest
@@ -5,7 +7,7 @@ import json
 import sys
 sys.path.insert(1,'.')
 
-from iiif_prezi.prezi3helper import Manifest, Canvas
+from iiif_prezi.prezi3 import Manifest, Canvas, Collection, AnnotationPage
 
 class TestAll(unittest.TestCase):
 
@@ -54,6 +56,23 @@ class TestAll(unittest.TestCase):
         self.assertEqual("http://example.com/canvas/1", canvas.id, 'Id should be the default one')
         
 if __name__ == '__main__':
-    unittest.main()
+    if len(sys.argv) > 1:
+        # validate passed JSON
+        with open(sys.argv[1]) as json_file:
+            data = json.load(json_file)
+            if data['type'] == "Manifest":
+                manifest = Manifest(**data)
+                print ('Manifest valid')
+            elif data['type'] == "Collection":    
+                collection = Collection(**data)
+                print ('Collection valid')
+            elif data['type'] == "AnnotationPage":    
+                collection = AnnotationPage(**data)
+                print ('AnnotationPage valid')
+            else:
+                print ('Unknown JSON')
+        
+    else:
+        unittest.main()
 
 

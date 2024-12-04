@@ -1,7 +1,10 @@
 
 from iiif_prezi.prezi3 import Manifest as ManifestSkeleton
 from iiif_prezi.prezi3 import Canvas as CanvasSkeleton
+from pydantic import BaseModel
 
+class Parent(BaseModel):
+    pass
 # or monkey patch existing classes 
 
 # Maybe add Skeleton or Properties to generated classes 
@@ -21,3 +24,4 @@ class Canvas(CanvasSkeleton):
         self.id = id
         if label:
             self.label = { 'en': label }
+
